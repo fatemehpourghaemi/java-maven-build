@@ -12,12 +12,12 @@ pipeline {
                 echo 'building the application...'
             }
         }
-        stage('test') {
-            
+        stage("test") {
             when {
-                expression{
+                expression {
                     params.executeTests
                 }
+            }
             steps {
                 script {
                     echo "Testing the application..."
