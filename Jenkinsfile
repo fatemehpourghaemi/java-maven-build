@@ -1,16 +1,23 @@
 #!/usr/bin/env groovy
 
 pipeline {
-    agent none
+    agent any
+    parameters {
+        booleanParam(name: 'execteTests', defaultValue: true, description: '')
+        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '')
+    }
     stages {
-        stage('build') {
+        stage("build") {
             steps {
-                script {
-                    echo "Building the application..."
-                }
+                echo 'building the application...'
             }
         }
         stage('test') {
+            
+            when {
+                expression{
+                    params.executeTests
+                }
             steps {
                 script {
                     echo "Testing the application..."
@@ -19,9 +26,8 @@ pipeline {
         }
         stage('deploy') {
             steps {
-                script {
-                    echo "Deploying the application..."
-                }
+                echo "Deploying the application..."
+                echo "deploying version ${params.VERSION}"
             }
         }
     }
