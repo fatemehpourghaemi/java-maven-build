@@ -18,12 +18,12 @@ pipeline {
                 expression {
                     params.executeTests
                 }
-            
+            }
             steps {
                 echo "Testing the application..." 
             }
         }
-        stage('deploy') {
+        stage("deploy") {
             steps {
                 echo "Deploying the application..."
                 echo "deploying version ${params.VERSION}"
