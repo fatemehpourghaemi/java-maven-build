@@ -13,7 +13,7 @@ pipeline {
         stage("init") {
             steps {
                 script {
-                    gv = load "script.groovy"
+                   gv = load "script.groovy"
                 }
             }
         }
@@ -30,8 +30,10 @@ pipeline {
                     params.executeTests
                 }
             }
-            steps { 
-                gv.testApp()
+            steps {
+                script {
+                    gv.testApp()
+                }
             }
         }
         stage("deploy") {
