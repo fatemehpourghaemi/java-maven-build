@@ -7,24 +7,22 @@ pipeline {
 		stage("build jar") {
 			steps {
 				script {
-					echo "building the application.." 
-					sh 'mvn package'
-				
+					echo "building the application..."
+                    sh 'mvn package'
+
 				}
-			
 			}
-			
 		}
 		stage("build image") {
 			steps {
 				script {
 					echo "building the docker image.." 
-					withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASS', usernameVariable:'USER')])
+					withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASS', usernameVariable:'USER')]) {
 				        sh 'docker build -t fatemehpourghaemi82/my-repo:jma-2.0 . '
 				        sh "echo $PASS | docker login -u $USER --password-stdin"
 				        sh 'docker push fatemehpourghaemi82/my-repo:jma-2.0'
+				        }
 				}
-			
 			}
 		}
 		stage("deploy") {
@@ -32,12 +30,8 @@ pipeline {
         				script {
         					echo "deploying yhe app.."
         				}
-
         			}
-
         		}
-		
-		
 		
 	}
 
